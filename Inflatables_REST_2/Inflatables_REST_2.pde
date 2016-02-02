@@ -1,6 +1,7 @@
-import org.json.simple.*;
-import org.json.simple.parser.*;
 import processing.serial.*;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.JSONArray;
 
 /****VALUES TO CHANGE THRESHOLDS****/
 //
