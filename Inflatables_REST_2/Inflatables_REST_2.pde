@@ -25,12 +25,12 @@ String decibelRequest;
 static long timestamp = 0;
  
 void setup() {
-  size (1440, 900);
+  fullScreen();
   background(255, 69, 0);
   //background(50);
   //
   /*
-// Set the proxy server and port to nottingham uni 
+   // Set the proxy server and port to nottingham uni 
    Properties systemSettings = System.getProperties();
    systemSettings.put("http.proxyHost", "mainproxy.nottingham.ac.uk");
    systemSettings.put("http.proxyPort", "8080");
