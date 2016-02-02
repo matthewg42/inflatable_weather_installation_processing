@@ -47,9 +47,7 @@ void setup() {
   decibelRequest = "http://activeingredient.timestreams.org/wp-content/plugins/timestreams/2/timestream/id/71";// 71//add args after the '?' 
   co2Request = "http://activeingredient.timestreams.org/wp-content/plugins/timestreams/2/timestream/id/72"; //72
 }
-boolean sketchFullScreen() {
-  return true;
-}
+
 void draw() {
   
   try{
@@ -193,4 +191,3 @@ void displayValues(int co2, int db) {
   text (displayDecibelText, width/8, 600);
   textAlign(LEFT);
 }
-
