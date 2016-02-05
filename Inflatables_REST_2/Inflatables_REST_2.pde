@@ -3,6 +3,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.JSONArray;
 
+// List of arduino serial ports
+String[] arduinoSerialPortPrefixes = {
+  "/dev/ttyACM", 
+  "/dev/ttyUSB",
+  "/dev/cu.usbmodem" 
+};
+
 /****VALUES TO CHANGE THRESHOLDS****/
 //
 static int lowDecibelLimit = 30;
@@ -41,8 +48,18 @@ void setup() {
   myFont = createFont("Futura-Medium-48.vlw", 150);
   textFont(myFont);
   //
-  String portName = Serial.list()[0];
-  println ("port list: " + portName);
+  println(arduinoSerialPortPrefixes);
+  String portName = "SERIAL DEVICE NOT FOUND";
+  for (String port : Serial.list()) {
+      for (String portFilter : arduinoSerialPortPrefixes) {
+        if (port.contains(portFilter)) {
+          println("Found an arduino looking serial device: " + port);
+          portName = port;
+          break;
+        }
+      }
+  }
+  println("Serial port: " + portName);
   myPort = new Serial(this, portName, 9600);
   decibelRequest = "http://www.timestreams.org.uk/wp-content/plugins/timestreams/2/timestream/id/91?limit=1&desc=true";
   co2Request = "http://www.timestreams.org.uk/wp-content/plugins/timestreams/2/timestream/id/90?limit=1&desc=true";
