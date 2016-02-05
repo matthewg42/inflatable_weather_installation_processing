@@ -62,9 +62,9 @@ void draw() {
 void handleData(String co2Url, String decibelUrl) {
   //delay (2000);
   String co2Str = getData(co2Url);
-  Integer co2Int = Integer.parseInt(co2Str);
+  Integer co2Int = (int) Double.parseDouble(co2Str);  
   String decibelStr = getData(decibelUrl);
-  Integer decibelInt = Integer.parseInt(decibelStr);
+  Integer decibelInt = (int)Double.parseDouble(decibelStr);
   println ("co2: " + co2Str + " -> " + co2Int);
   println ("decibel: " + decibelStr + " -> " + decibelInt);
   if ((co2Int == null) || (co2Int<=0)) {
@@ -84,7 +84,7 @@ String getData(String urlBase) {
   String request = urlBase + "?last=" + timestamp;
   println ("url: " + co2Request);
 
-  String timeString = "http://activeingredient.timestreams.org/wp-content/plugins/timestreams/2/time";
+  String timeString = "http://www.timestreams.org.uk/wp-content/plugins/timestreams/2/time";
   String time = loadStrings(timeString)[0];
   timestamp = parseTime(time);
   String data [] = loadStrings(request);
@@ -112,7 +112,8 @@ String parseMeasurements(String s) {
 }
 
 long parseTime(String time) {
-  String timeString = "http://activeingredient.timestreams.wp.horizon.ac.uk/wp-content/plugins/timestreams/2/time";
+  //String timeString = "http://activeingredient.timestreams.wp.horizon.ac.uk/wp-content/plugins/timestreams/2/time";
+  String timeString = "http://www.timestreams.org.uk/wp-content/plugins/timestreams/2/time";
   String s = loadStrings(timeString)[0];
   JSONObject obj=(JSONObject)JSONValue.parse(s);
 
