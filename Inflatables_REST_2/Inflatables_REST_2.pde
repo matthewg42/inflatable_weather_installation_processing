@@ -44,9 +44,8 @@ void setup() {
   String portName = Serial.list()[0];
   println ("port list: " + portName);
   myPort = new Serial(this, portName, 9600);
-  //
-  decibelRequest = "http://activeingredient.timestreams.org/wp-content/plugins/timestreams/2/timestream/id/71";// 71//add args after the '?' 
-  co2Request = "http://activeingredient.timestreams.org/wp-content/plugins/timestreams/2/timestream/id/72"; //72
+  decibelRequest = "http://www.timestreams.org.uk/wp-content/plugins/timestreams/2/timestream/id/91?limit=1&desc=true";
+  co2Request = "http://www.timestreams.org.uk/wp-content/plugins/timestreams/2/timestream/id/90?limit=1&desc=true";
 }
 
 void draw() {
