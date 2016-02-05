@@ -65,8 +65,8 @@ void handleData(String co2Url, String decibelUrl) {
   Integer co2Int = (int) Double.parseDouble(co2Str);  
   String decibelStr = getData(decibelUrl);
   Integer decibelInt = (int)Double.parseDouble(decibelStr);
-  println ("co2: " + co2Str + " -> " + co2Int);
-  println ("decibel: " + decibelStr + " -> " + decibelInt);
+  //println ("co2: " + co2Str + " -> " + co2Int);
+  //println ("decibel: " + decibelStr + " -> " + decibelInt);
   if ((co2Int == null) || (co2Int<=0)) {
     co2Int = previousCo2;
   }
@@ -82,14 +82,14 @@ void handleData(String co2Url, String decibelUrl) {
 String getData(String urlBase) {
   try{
   String request = urlBase + "?last=" + timestamp;
-  println ("url: " + co2Request);
+  //println ("url: " + co2Request);
 
   String timeString = "http://www.timestreams.org.uk/wp-content/plugins/timestreams/2/time";
   String time = loadStrings(timeString)[0];
   timestamp = parseTime(time);
   String data [] = loadStrings(request);
-  println("data.length: " + data.length); 
-  println("measurement: " + parseMeasurements(data[0]));
+  //println("data.length: " + data.length); 
+  //println("measurement: " + parseMeasurements(data[0]));
   return parseMeasurements(data[0]);
   }catch (NullPointerException npe){
    //npe.printStackTrace(); 
@@ -98,7 +98,7 @@ String getData(String urlBase) {
 }
 
 String parseMeasurements(String s) {
-  println("s: " + s);
+  //println("s: " + s);
   JSONObject obj=(JSONObject)JSONValue.parse(s);
 
   JSONArray t = (JSONArray)obj.get("measurements");
