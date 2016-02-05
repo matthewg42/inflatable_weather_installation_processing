@@ -9,7 +9,7 @@ static int lowDecibelLimit = 30;
 int highDecibelLimit = 70;
 //
 static int lowCO2Limit = 500;
-int middleC02Limit = 1500;
+int middleCo2Limit = 1500;
 int highCO2Limit = 2000;
 //
 //****VALUES TO CHANGE THRESHOLDS****
@@ -18,7 +18,7 @@ Serial myPort;
 
 PFont myFont;
 static int previousCo2 = lowCO2Limit;
-static int previousDec = lowDecibelLimit;
+static int previousDecibel = lowDecibelLimit;
 
 String co2Request;
 String decibelRequest;
@@ -58,41 +58,45 @@ void draw() {
   }
   delay(2000);
 }
-void handleData(String urlBase1, String urlBase2) {
+
+void handleData(String co2Url, String decibelUrl) {
   //delay (2000);
-  String measurement1 = getData(urlBase1);
-  Integer measurementInt1 = Integer.parseInt(measurement1);
-  String measurement2 = getData(urlBase2);
-  Integer measurementInt2 = Integer.parseInt(measurement2);
-  //println ("decibels: " + decibelInt);
-  if ((measurementInt1 == null) || (measurementInt1<=0)) {
-    measurementInt1 = previousCo2;
+  String co2Str = getData(co2Url);
+  Integer co2Int = Integer.parseInt(co2Str);
+  String decibelStr = getData(decibelUrl);
+  Integer decibelInt = Integer.parseInt(decibelStr);
+  println ("co2: " + co2Str + " -> " + co2Int);
+  println ("decibel: " + decibelStr + " -> " + decibelInt);
+  if ((co2Int == null) || (co2Int<=0)) {
+    co2Int = previousCo2;
   }
-  if ((measurementInt2 == null) || (measurementInt2<=0)) {
-    measurementInt2 = previousDec;
+  if ((decibelInt == null) || (decibelInt<=0)) {
+    decibelInt = previousDecibel;
   }
-  sendSerial(measurementInt1, measurementInt2);
-  displayValues(measurementInt1, measurementInt2);
-  previousDec = measurementInt2;
-  previousCo2 = measurementInt1;
+  sendSerial(co2Int, decibelInt);
+  displayValues(co2Int, decibelInt);
+  previousDecibel = decibelInt;
+  previousCo2 = co2Int;
 }
+
 String getData(String urlBase) {
   try{
   String request = urlBase + "?last=" + timestamp;
-  //println ("url: " + co2Request);
+  println ("url: " + co2Request);
 
   String timeString = "http://activeingredient.timestreams.org/wp-content/plugins/timestreams/2/time";
   String time = loadStrings(timeString)[0];
   timestamp = parseTime(time);
   String data [] = loadStrings(request);
-  //println("data.length: " + data.length); 
-  //println("measurement: " + parseMeasurements(data[0]));
+  println("data.length: " + data.length); 
+  println("measurement: " + parseMeasurements(data[0]));
   return parseMeasurements(data[0]);
   }catch (NullPointerException npe){
    //npe.printStackTrace(); 
    return "0";
   }
 }
+
 String parseMeasurements(String s) {
   println("s: " + s);
   JSONObject obj=(JSONObject)JSONValue.parse(s);
@@ -116,6 +120,7 @@ long parseTime(String time) {
   obj = (JSONObject) t.get(0);
   return (Long)obj.get("CURRENT_TIMESTAMP");
 }
+
 void sendSerial(int co2, int db) {
   //CO2 thresholds
 
@@ -135,7 +140,7 @@ void sendSerial(int co2, int db) {
     }
   }
   //LOW CO2
-  if ((co2>=lowCO2Limit)&&(co2<middleC02Limit)) {
+  if ((co2>=lowCO2Limit)&&(co2<middleCo2Limit)) {
     if (db<lowDecibelLimit) {
       myPort.write ('D');
       println("D");
@@ -150,7 +155,7 @@ void sendSerial(int co2, int db) {
     }
   }
   //MEDIUM CO2
-  if ((co2>=middleC02Limit)&&(co2< highCO2Limit)) {
+  if ((co2>=middleCo2Limit)&&(co2< highCO2Limit)) {
     if (db<lowDecibelLimit) {
       myPort.write ('G');
       println("G");
@@ -181,13 +186,12 @@ void sendSerial(int co2, int db) {
   }
 }
 
-
 void displayValues(int co2, int db) {
   background(255, 69, 0);
 
-  String displayC02Text = (co2 +" C02 (PPM)");
+  String displayCo2Text = (co2 +" Co2 (PPM)");
   String displayDecibelText = (db + " DECIBELS");
-  text (displayC02Text, width/8, 350);
+  text (displayCo2Text, width/8, 350);
   text (displayDecibelText, width/8, 600);
   textAlign(LEFT);
 }
